@@ -15,4 +15,24 @@
             AND a.member_id = #{memberId}
         ORDER by a.order_id DESC
     </select>
+
+    <select id="listMemberAndOrder" resultType="com.example.work1.model.MemberOrderVo">
+        SELECT
+            a.member_id AS memberId
+            , a.member_name AS memberName
+            , a.member_alias AS memberAlias
+            , a.phone
+            , a.email
+            , a.gender
+            , IFNULL(b.order_id, 0) AS orderId
+            , b.paid_at AS paidAt
+            , IFNULL(c.product_id, 0) AS productId
+            , c.product_name AS productName
+        FROM member a
+        LEFT OUTER JOIN product_order b ON a.member_id = b.member_id AND b.last_order = 1
+        LEFT OUTER JOIN product c ON b.product_id = c.product_id
+        <if test="email != null">WHERE a.email = #{email}</if>
+        <if test="name != null">WHERE a.name = #{name}</if>
+        LIMIT #{start}, 10
+    </select>
 </mapper>
