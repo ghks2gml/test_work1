@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.work1.dao.ProductOrderDao">
+
+    <select id="listOrderByMember" resultType="com.example.work1.model.ProductOrderVo">
+        /* ProductOrderDao.listOrderByMember */
+        SELECT a.order_id AS orderId
+             , b.product_id AS productId
+             , b.product_name AS productName
+             , a.paid_at AS paidAt
+             , a.created_at AS createdAt
+        FROM product_order a, product b
+        WHERE a.product_id = b.product_id
+            AND a.member_id = #{memberId}
+        ORDER by a.order_id DESC
+    </select>
+</mapper>
